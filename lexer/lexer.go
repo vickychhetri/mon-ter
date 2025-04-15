@@ -1,8 +1,6 @@
 package lexer
 
 import (
-	"fmt"
-
 	"github.com/vickychhetri/mon-ter/token"
 )
 
@@ -84,8 +82,6 @@ func (l *lexer) NextToken() token.Token {
 
 	// skip white space
 	l.skipWhiteSpaces()
-	fmt.Printf("ch: %q\n", l.ch)
-	fmt.Printf("position: %d\n", l.position)
 	switch l.ch {
 	case '=':
 		if l.peekChar() == '=' {
