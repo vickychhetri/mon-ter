@@ -31,11 +31,34 @@ func (l *lexer) readChar() {
 	l.readPostion += 1
 }
 
+func (l *lexer) readIdentifier() string {
+	position := l.position
+	for isLetter(l.ch) {
+		l.readChar()
+	}
+	return l.input[position:l.position]
+}
+
+func (l *lexer) readNumber() string {
+	postion := l.position
+	for isDigit(l.ch) {
+		l.readChar()
+	}
+	return l.input[postion:l.position]
+}
+
 func newToken(tokenType token.TokenType, ch byte) token.Token {
 	return token.Token{
 		Type:    tokenType,
 		Literal: string(ch),
 	}
+}
+func isLetter(ch byte) bool {
+	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
+}
+
+func isDigit(ch byte) bool {
+	return '0' <= ch && ch <= '9'
 }
 
 func (l *lexer) NextToken() token.Token {
@@ -63,6 +86,19 @@ func (l *lexer) NextToken() token.Token {
 	case 0:
 		tok.Literal = ""
 		tok.Type = token.EOF
+	default:
+		if isLetter(l.ch) {
+			tok.Literal = l.readIdentifier()
+			tok.Type = token.LookupIdent(tok.Literal)
+			return tok
+		} else if isDigit(l.ch) {
+			tok.Literal = l.readNumber()
+			tok.Type = token.INT
+			return tok
+		} else {
+			tok = newToken(token.ILLEGAL, l.ch)
+		}
+
 	}
 
 	l.readChar()
