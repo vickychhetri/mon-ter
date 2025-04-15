@@ -61,8 +61,20 @@ func isDigit(ch byte) bool {
 	return '0' <= ch && ch <= '9'
 }
 
+func (l *lexer) skipWhiteSpaces() {
+	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
+
+		// fmt.Printf("ch: %q\n", l.ch)
+		// fmt.Printf("position: %d\n", l.position)
+		l.readChar()
+	}
+}
+
 func (l *lexer) NextToken() token.Token {
 	var tok token.Token
+
+	// skip white space
+	l.skipWhiteSpaces()
 
 	switch l.ch {
 	case '=':
