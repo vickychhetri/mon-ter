@@ -31,8 +31,15 @@ const (
 	INT   = "INT"
 
 	//Operators
-	ASSIGN = "="
-	PLUS   = "+"
+	BANG     = "!"
+	ASSIGN   = "="
+	PLUS     = "+"
+	MINUS    = "-"
+	SLASH    = "/"
+	ASTERISK = "*"
+
+	LT = "<"
+	GT = ">"
 
 	//Delimiters
 	COMMA     = ","
@@ -45,12 +52,26 @@ const (
 	//Keywords
 	FUNCTION = "FUNCTION"
 	LET      = "LET"
+	// Add more keywords as needed
+	IF     = "IF"
+	ELSE   = "ELSE"
+	RETURN = "RETURN"
+	TRUE   = "TRUE"
+	FALSE  = "FALSE"
+	// Add more keywords as needed
+	EQ = "=="
+	NE = "!="
 )
 
 // keywords maps language keywords to their corresponding token types.
 var keywords = map[string]TokenType{
-	"fn":  FUNCTION,
-	"let": LET,
+	"fn":     FUNCTION,
+	"let":    LET,
+	"if":     IF,
+	"else":   ELSE,
+	"return": RETURN,
+	"true":   TRUE,
+	"false":  FALSE,
 }
 
 // LookmeUp checks if the identifier is a keyword and returns the corresponding token type
